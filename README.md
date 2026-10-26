@@ -5,3 +5,6 @@ Only notable thing here is that the player falling fix and jump button were alre
 
 The only technical hurdles I ran into were me misspelling everything because my tutorial resources were hard to read. Once I actually spelled everything properly, the game ran smoothly.
 The only scope adjustment I did was adding the player damage and double jump.
+
+Here is the link to the Drive with this project's videos:
+https://drive.google.com/drive/folders/1sNp1-qXs02gBF6a-ToiYI0F8-9KntJNw?usp=sharing
