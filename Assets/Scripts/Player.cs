@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    public int health = 100;
+
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
 
@@ -19,13 +22,17 @@ public class Player : MonoBehaviour
 
 
     public bool canGrab;
-   
 
+    public int extraJumpsValue = 1;
+    private int extraJumps;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        extraJumps = extraJumpsValue;
+
     }
 
     // Update is called once per frame
@@ -34,9 +41,27 @@ public class Player : MonoBehaviour
         float moveInput = Input.GetAxis("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && canJump)
+
+        if (isGrounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            extraJumps = extraJumpsValue;
+        }
+
+
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+
+            if (isGrounded)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            }
+            else if (extraJumps > 0)
+            {
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                extraJumps--;
+            }
+
         }
 
 
@@ -67,5 +92,26 @@ public class Player : MonoBehaviour
         }
 
         }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Damage")
+        {
+            health -= 25;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+            if (health <= 0)
+            {
+                Die();
+            }
+
+        }
+    }
+  
+    private void Die()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+    }
+
     }
 
